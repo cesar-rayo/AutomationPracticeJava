@@ -16,6 +16,5 @@ public class HoverTests extends BaseTests {
         assertEquals(caption.getTitle(),"name: user1", "Title does not match");
         assertEquals(caption.getLinkText(),"View profile", "Caption link does not match");
         assertTrue(caption.getLink().endsWith("/users/1"), "Link incorrect");
-
     }
 }

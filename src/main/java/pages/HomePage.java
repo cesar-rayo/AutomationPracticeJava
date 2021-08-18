@@ -45,6 +45,41 @@ public class HomePage {
         return new HorizontalSlider(driver);
     }
 
+    public AlertsPage clickJavaScriptAlerts() {
+        clickLink("/javascript_alerts");
+        return new AlertsPage(driver);
+    }
+
+    public FileUploadPage clickFileUpload() {
+        clickLink("/upload");
+        return new FileUploadPage(driver);
+    }
+
+    public EntryAddPage clickEntryAdd() {
+        clickLink("/entry_ad");
+        return new EntryAddPage(driver);
+    }
+
+    public ContextMenuPage clickContextMenu() {
+        clickLink("/context_menu");
+        return new ContextMenuPage(driver);
+    }
+
+    public WysiwygPage clickWysiwygEditor() {
+        clickLink("/tinymce");
+        return new WysiwygPage(driver);
+    }
+
+    public FramesPage clickFramesLink() {
+        clickLink("/frames");
+        return new FramesPage(driver);
+    }
+
+    public DynamicLoadingPage clickDynamicLoading() {
+        clickLink("/dynamic_loading");
+        return new DynamicLoadingPage(driver);
+    }
+
     /**
      * List<WebElement> links = driver.findElements(By.tagName("a"));
      * System.out.println(links.size());
