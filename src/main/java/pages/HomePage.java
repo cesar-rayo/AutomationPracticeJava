@@ -80,6 +80,21 @@ public class HomePage {
         return new DynamicLoadingPage(driver);
     }
 
+    public LargeDeepPage clickLargeDeepLink() {
+        clickLink("/large");
+        return new LargeDeepPage(driver);
+    }
+
+    public InfiniteScrollPage clickInfiniteScrollLink() {
+        clickLink("/infinite_scroll");
+        return new InfiniteScrollPage(driver);
+    }
+
+    public MultipleWindowsPage clickMultipleWindowsLink() {
+        clickLink("/windows");
+        return new MultipleWindowsPage(driver);
+    }
+
     /**
      * List<WebElement> links = driver.findElements(By.tagName("a"));
      * System.out.println(links.size());
