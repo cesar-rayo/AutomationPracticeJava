@@ -3,6 +3,8 @@ package pages.formy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import javax.swing.plaf.basic.BasicBorders;
+
 public class FormyHomePage {
     private String url = "https://formy-project.herokuapp.com/";
     private WebDriver driver;
@@ -44,6 +46,16 @@ public class FormyHomePage {
     public DragDropPage clickDragDropLink() {
         clickOnLink("/dragdrop");
         return new DragDropPage(driver);
+    }
+
+    public RadioButtonPage clickRadioButtonLink() {
+        clickOnLink("/radiobutton");
+        return new RadioButtonPage(driver);
+    }
+
+    public CheckBoxesPage clickCheckBoxesLink() {
+        clickOnLink("/checkbox");
+        return new CheckBoxesPage(driver);
     }
 
 }
