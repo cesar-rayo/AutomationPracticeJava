@@ -3,19 +3,18 @@ package selenium.base;
 import com.google.common.io.Files;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import pages.formy.FormyHomePage;
-import utils.EventReporter;
-import utils.WindowManager;
-
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTestsFormy {
@@ -25,9 +24,21 @@ public class BaseTestsFormy {
 
     @BeforeClass
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "/Users/crayo/Documents/work/selenium/drivers/chromedriver");
+        boolean remote = true;
 
-        driver = new ChromeDriver();
+        //Remote driver
+        if (remote) {
+            DesiredCapabilities desiredCapabilities = DesiredCapabilities.operaBlink();
+            try {
+                driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), desiredCapabilities);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.setProperty("webdriver.chrome.driver", "/Users/crayo/Documents/work/selenium/drivers/chromedriver");
+            driver = new ChromeDriver();
+        }
+
 
         driver.manage().window().maximize();
         //driver.manage().window().setSize(new Dimension(1775, 954));
@@ -64,5 +75,9 @@ public class BaseTestsFormy {
         if (result.getStatus() == ITestResult.FAILURE) {
             takeScreenshot(result.getName() + ".png");
         }
+    }
+
+    public void goBack() {
+        driver.navigate().back();
     }
 }

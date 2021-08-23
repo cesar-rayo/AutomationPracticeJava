@@ -58,4 +58,19 @@ public class FormyHomePage {
         return new CheckBoxesPage(driver);
     }
 
+    public DatePickerPage clickDatePickerlink() {
+        clickOnLink("/datepicker");
+        return new DatePickerPage(driver);
+    }
+
+    public DropdownPage clickDropdownLink() {
+        clickOnLink("/dropdown");
+        return new DropdownPage(driver);
+    }
+
+    public FormPage clickFormLink() {
+        clickOnLink("/form");
+        return new FormPage(driver);
+    }
+
 }
