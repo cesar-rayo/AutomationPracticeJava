@@ -1,8 +1,17 @@
 package selenium.base;
 
 import com.google.common.io.Files;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.opera.OperaDriver;
+import org.openqa.selenium.opera.OperaOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.ITestResult;
@@ -24,21 +33,51 @@ public class BaseTestsFormy {
 
     @BeforeClass
     public void setUp() {
-        boolean remote = true;
+        boolean remote = Boolean.parseBoolean(System.getProperty("USE_GRID","false"));
+        String driverFlavor = System.getProperty("BROWSER","chrome");
+
+        String gridUrl = "http://localhost:4444/wd/hub";
+        System.out.println(String.format("Remote: %s, Driver: %s",remote, driverFlavor));
 
         //Remote driver
         if (remote) {
-            DesiredCapabilities desiredCapabilities = DesiredCapabilities.operaBlink();
             try {
-                driver = new RemoteWebDriver(new URL("http://localhost:4444/wd/hub"), desiredCapabilities);
+                switch (driverFlavor) {
+                    case "firefox":
+                        driver = new RemoteWebDriver(new URL(gridUrl), new FirefoxOptions());
+                        break;
+                    case "edge":
+                        driver = new RemoteWebDriver(new URL(gridUrl), new EdgeOptions());
+                        break;
+                    case "opera":
+                        driver = new RemoteWebDriver(new URL(gridUrl), new OperaOptions());
+                        break;
+                    default:
+                        driver = new RemoteWebDriver(new URL(gridUrl), new ChromeOptions());
+                }
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
         } else {
-            System.setProperty("webdriver.chrome.driver", "/Users/crayo/Documents/work/selenium/drivers/chromedriver");
-            driver = new ChromeDriver();
+            // Use bonigarcia webdrivermanager for setting up local environment
+            switch (driverFlavor.toLowerCase()) {
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver = new FirefoxDriver();
+                    break;
+                case "edge":
+                    WebDriverManager.edgedriver().setup();
+                    driver = new EdgeDriver();
+                    break;
+                case "opera":
+                    WebDriverManager.operadriver().setup();
+                    driver = new OperaDriver();
+                    break;
+                default:
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
+            }
         }
-
 
         driver.manage().window().maximize();
         //driver.manage().window().setSize(new Dimension(1775, 954));
